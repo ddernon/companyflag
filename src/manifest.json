@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "CompanyFlag",
+  "version": "0.6.2",
+  "description": "Shows the country of origin of the current website’s company",
+  
+  "permissions": [
+    "activeTab",
+    "storage",
+    "webNavigation"
+  ],
+  
+  "background": {
+    "scripts": [
+      "js/background.js"
+    ]
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "js/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "CountryFlag"
+  },
+  
+  "icons": {
+    "128": "img/icon-128.png"
+  },
+
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "companyflag@daviddernoncourt.com",
+      "strict_min_version": "109.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  }
+}

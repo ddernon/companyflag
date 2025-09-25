@@ -1,0 +1,51 @@
+name: Build extension packages
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build_xpi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          check-latest: true
+
+      - name: Build extensions
+        run: |
+          . "$HOME/.nvm/nvm.sh"
+
+          cp license.txt src/
+          node utils/download_flags.js src/img/flags/
+          cd src
+          zip -r ../firefox.xpi *
+          cd ..
+
+          node utils/convert_manifest.js src/manifest.json src/manifest.json
+          cd src
+          zip -r ../chrome.zip *
+          cd ..
+
+          echo "${{ secrets.CHROME_PEM_B64 }}" | base64 -d > chrome.pem
+          npx crx3 -p chrome.pem -o chrome.crx < chrome.zip
+        shell: bash
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-extensions
+          path: |
+            chrome.crx
+            chrome.zip
+            firefox.xpi
+          retention-days: 1

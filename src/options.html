@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Options</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    .setting {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 0.5rem;
+    }
+    label {
+      display: inline-block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    input, select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input[type="color"] {
+      border: 1px solid #aaa;
+      padding: 0;
+      margin-top: 0.2rem;
+      width: 34px;
+      height: 1rem;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+      border-radius: inherit;
+    }
+    button {
+      background: #0066cc;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0052a3;
+    }
+    #status {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+    #status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+  </style>
+</head>
+<body>
+  <h1>Options</h1>
+  
+  <div class="setting">
+    <input type="checkbox" id="favicon-flag" />
+    <label for="favicon-flag">Insert flag into favicons</label>
+  </div>
+
+  <div class="setting">
+    <input type="checkbox" id="menu-icon-flag" />
+    <label for="menu-icon-flag">Overwrite add-on icon with flag (if country is known)</label>
+  </div>
+
+  <div class="setting">
+    <input type="checkbox" id="badge-flag" />
+    <label for="badge-flag">Use flag instead of country code on badge</label>
+  </div>
+
+  <div class="setting">
+    <input type="color" id="badge-bg-color-known" />
+    <label for="badge-bg-color-known">Badge background color when country is known</label>
+  </div>
+
+  <div class="setting">
+    <input type="color" id="badge-bg-color-unknown" />
+    <label for="badge-bg-color-unknown">Badge background color when country is unknown</label>
+  </div>
+  
+  <div class="setting" style="display: none;">
+    <label for="update-url">Update filter from URL:</label>
+    <input type="text" id="update-url" disabled/>
+  </div>
+  
+  <button id="save">Save</button>
+  <div id="status"></div>
+  
+  <script src="js/options.js"></script>
+</body>
+</html>

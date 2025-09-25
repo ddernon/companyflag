@@ -1,0 +1,38 @@
+stages:
+  - build
+
+build_xpi:
+  stage: build
+  image: ubuntu:rolling
+  before_script:
+    - apt-get update && apt-get install -y curl zip
+    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    - \. "$HOME/.nvm/nvm.sh"
+    - nvm install 24
+    - node -v
+    - npm install -g crx3
+  script:
+    - |
+      cp license.txt src/
+      node utils/download_flags.js src/img/flags/
+      cd src
+      zip -r ../firefox.xpi *
+      cd ..
+
+      node utils/convert_manifest.js src/manifest.json src/manifest.json
+      cd src
+      zip -r ../chrome.zip *
+      cd ..
+      
+      echo "$CHROME_PEM_B64" | base64 -d > chrome.pem;
+      cat chrome.zip | crx3 -p chrome.pem -o chrome.crx
+  artifacts:
+    paths:
+      - chrome.crx
+      - chrome.zip
+      - firefox.xpi
+    expire_in: 1 day
+  only:
+    - master
+    - merge_requests
+  when: on_success
