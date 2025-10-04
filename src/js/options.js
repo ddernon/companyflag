@@ -26,7 +26,10 @@ const menuIconFlag = document.getElementById('menu-icon-flag');
 const badgeFlag = document.getElementById('badge-flag');
 const badgeBgColorKnown = document.getElementById('badge-bg-color-known');
 const badgeBgColorUnknown = document.getElementById('badge-bg-color-unknown');
-const updateUrl = document.getElementById('update-url').value;
+
+const autoupdateEnabled = document.getElementById('autoupdate-enabled');
+const updateUrl = document.getElementById('update-url');
+const updateFrequency = document.getElementById('update-frequency');
 
 function saveOptions() {
   browserAPI.storage.sync.set({
@@ -35,7 +38,11 @@ function saveOptions() {
     badgeBgColorUnknown: badgeBgColorUnknown.value,
     faviconFlag: faviconFlag.checked,
     menuIconFlag: menuIconFlag.checked,
-    updateUrl: updateUrl
+    update: {
+      enabled: !!autoupdateEnabled.checked,
+      checkEveryDays: Number(updateFrequency.value) || 1,
+      urls: [updateUrl.value || '']
+    }
   }, () => {
     // Show success message
     const status = document.getElementById('status');
@@ -57,14 +64,17 @@ async function restoreOptions() {
     'badgeBgColorUnknown',
     'faviconFlag',
     'menuIconFlag',
-    'updateUrl'
+    'update'
   ]);
   badgeFlag.checked = storedOptions.badgeFlag;
   badgeBgColorKnown.value = storedOptions.badgeBgColorKnown;
   badgeBgColorUnknown.value = storedOptions.badgeBgColorUnknown;
   faviconFlag.checked = storedOptions.faviconFlag;
   menuIconFlag.checked = storedOptions.menuIconFlag;
-  updateUrl.value = storedOptions.updateUrl;
+  const update = storedOptions.update || {};
+  autoupdateEnabled.checked = update.enabled;
+  updateFrequency.value = update.checkEveryDays;
+  updateUrl.value = (Array.isArray(update.urls) && update.urls.length > 0) ? update.urls[0] : '';
 }
 
 

@@ -63,14 +63,20 @@ function getFlagEmoji(countryCodeIso2) {
 }
 
 
-/* TODO
 // Fetch updated country data from remote source
 async function updateCountryData() {
-  console.log('Running updateCountryData()');
+  console.log('[DEBUG] Running updateCountryData()');
   if (!COMPANY_DATA) await loadCompanyData;
 
   try {
-    const response = await fetch('https://www.daviddernoncourt.com/country-data.json', { cache: 'no-store' });
+    const settings = await browserAPI.storage.sync.get([
+      'update'
+    ]);
+    if (!settings.update?.enabled) {
+      console.log('[DEBUG] updateCountryData(): skipping since updates are disabled');
+      return;
+    }
+    const response = await fetch(settings.update?.urls[0], { cache: 'no-store' });
     if (response.ok) {
       const remoteData = await response.json();
       COMPANY_DATA = { ...COMPANY_DATA, ...remoteData };
@@ -78,13 +84,14 @@ async function updateCountryData() {
         companyData: COMPANY_DATA,
         lastUpdate: Date.now()
       });
+      console.log('[DEBUG] updateCountryData(): merged remote and local data');
     }
   } catch (error) {
-    console.log('Failed to fetch remote data, using local data');
+    console.warn('Failed to fetch remote data, using local data. Reason:', error);
   }
 }
 
-// Load cached data on startup
+// Load cached data on startup +/- update data if needed
 browserAPI.runtime.onStartup.addListener(async () => {
   if (!COMPANY_DATA) await loadCompanyData;
 
@@ -93,18 +100,15 @@ browserAPI.runtime.onStartup.addListener(async () => {
     COMPANY_DATA = stored.companyData;
   }
   
-  // Update if data is older than 24 hours
+  const settings = await browserAPI.storage.sync.get([
+    'update'
+  ]);
   const dayInMs = 24 * 3600 * 1000;
-  if (!stored.lastUpdate || Date.now() - stored.lastUpdate > dayInMs) {
+  let updateInterval = dayInMs * settings.update?.checkEveryDays;
+  if (!stored.lastUpdate || Date.now() - stored.lastUpdate > updateInterval) {
     updateCountryData();
   }
 });
-
-// Update data on install
-browserAPI.runtime.onInstalled.addListener(() => {
-  updateCountryData();
-});
-*/
 
 
 function extractDomain(url) {
@@ -159,7 +163,7 @@ async function getAllDataForDomain(domain) {
 
 
 async function getCountryInfo(domain) {
-  console.log(`[DEBUG] getCountryInfo called for domain ${domain}`);
+  // console.log(`[DEBUG] getCountryInfo called for domain ${domain}`);
   // Direct match
   if (COMPANY_DATA[domain]) {
     return {domain: domain, ...COMPANY_DATA[domain]};
@@ -285,7 +289,11 @@ browserAPI.runtime.onInstalled.addListener(details => {
     badgeBgColorUnknown: '#f4c542',
     faviconFlag: false,
     menuIconFlag: true,
-    updateUrl: ''
+    update: {
+      enabled: false,
+      checkEveryDays: 1,
+      urls: ['https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/master/src/data/company_data.json']
+    }
   };
 
   if (details.reason === 'install' || details.reason === 'update') {
@@ -293,5 +301,7 @@ browserAPI.runtime.onInstalled.addListener(details => {
     browserAPI.storage.sync.get(defaults, result => {
       browserAPI.storage.sync.set(result);
     });
+    // Update data
+    updateCountryData();
   }
 });
