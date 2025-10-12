@@ -62,6 +62,11 @@
       color: #155724;
       border: 1px solid #c3e6cb;
     }
+    #status.failure {
+      background: #edd4d9;
+      color: #572417;
+      border: 1px solid #e6c3cb;
+    }
   </style>
 </head>
 <body>
@@ -95,6 +100,7 @@
   <div class="setting">
     <input type="checkbox" id="autoupdate-enabled" />
     <label for="autoupdate-enabled">Enable list autoupdate</label>
+    <button id="update-now">Update now</button>
   </div>
 
   <div class="setting">
@@ -117,6 +123,6 @@
   <button id="save">Save</button>
   <div id="status"></div>
   
-  <script src="js/options.js"></script>
+  <script type="module" src="js/options.js"></script>
 </body>
 </html>

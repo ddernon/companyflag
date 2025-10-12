@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*!*****************************************************************************
 
   CompanyFlag - Show company and country of current website
   Copyright (C) 2025 David Dernoncourt <daviddernoncourt.com>
@@ -19,10 +19,9 @@
 */
 
 
-const isFirefox = typeof browser !== 'undefined' && browser.runtime;
-const browserAPI = isFirefox ? browser : chrome;
+const el_AGPLv3 = document.getElementById('AGPLv3')!;
 
-fetch(browserAPI.runtime.getURL('license.txt'))
+fetch(chrome.runtime.getURL('license.txt'))
   .then(response => {
     if (!response.ok) {
       throw new Error(`Failed to load license.txt: ${response.status}\nSee https://www.gnu.org/licenses/agpl-3.0.en.html`);
@@ -30,9 +29,9 @@ fetch(browserAPI.runtime.getURL('license.txt'))
     return response.text();
   })
   .then(text => {
-    document.getElementById('AGPLv3').textContent = text;
+    el_AGPLv3.textContent = text;
   })
   .catch(error => {
     console.error('Error loading license:', error);
-    document.getElementById('AGPLv3').textContent = 'Error loading license file.\nSee https://www.gnu.org/licenses/agpl-3.0.en.html';
+    el_AGPLv3.textContent = 'Error loading license file.\nSee https://www.gnu.org/licenses/agpl-3.0.en.html';
   });

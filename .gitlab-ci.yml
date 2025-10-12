@@ -10,11 +10,15 @@ build_xpi:
     - \. "$HOME/.nvm/nvm.sh"
     - nvm install 24
     - node -v
-    - npm install -g crx3
+    - npm install -g crx3 npm-check-updates rollup typescript
   script:
     - |
+      npm i
+      rollup -c --minify
+      rm -rf src/ts
       cp license.txt src/
       node utils/download_flags.js src/img/flags/
+
       cd src
       zip -r ../firefox.xpi *
       cd ..
@@ -34,5 +38,6 @@ build_xpi:
     expire_in: 1 day
   only:
     - master
+    - migrate_to_ts
     - merge_requests
   when: on_success

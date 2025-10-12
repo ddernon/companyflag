@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "src/js",
+    "rootDir": "src/ts",
+    "strict": true,
+    "removeComments": true,
+    "esModuleInterop": false
+  },
+  "include": ["src/ts"]
+}

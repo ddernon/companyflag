@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*!*****************************************************************************
 
   CompanyFlag - Show company and country of current website
   Copyright (C) 2025 David Dernoncourt <daviddernoncourt.com>
@@ -19,28 +19,26 @@
 */
 
 
-const isFirefox = typeof browser !== 'undefined' && browser.runtime;
-const browserAPI = isFirefox ? browser : chrome;
+import { ChromeMessage, getEl } from './shared';
 
-const flagEl = document.getElementById('flag');
-const countryCodeEl = document.getElementById('countryCode');
-const domainEl = document.getElementById('domain');
-const companyEl = document.getElementById('company');
-const countryEl = document.getElementById('country');
-const contentEl = document.getElementById('content');
-const traceEl = document.getElementById('trace');
+const flagEl = getEl('flag');
+const countryCodeEl = getEl('countryCode');
+const domainEl = getEl('domain');
+const companyEl = getEl('company');
+const countryEl = getEl('country');
+const contentEl = getEl('content');
+const traceEl = getEl('trace');
 
-const loadingEl = document.getElementById('loading');
-const unknownEl = document.getElementById('unknown');
-const specialPageEl = document.getElementById('special-page');
+const loadingEl = getEl('loading');
+const unknownEl = getEl('unknown');
+const specialPageEl = getEl('special-page');
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Get current tab
-    const [tab] = await browserAPI.tabs.query({ active: true, currentWindow: true });
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     
     console.log('[POPUP DEBUG] Current tab:', JSON.stringify(tab, null, 2));
-    console.log('[POPUP DEBUG] Using API:', isFirefox ? 'Firefox browser' : 'Chrome');
     
     if (!tab.url) {
       console.log('[POPUP DEBUG] No tab URL available');
@@ -51,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('[POPUP DEBUG] Requesting country info for:', tab.url);
     
     // Request country info from background script
-    browserAPI.runtime.sendMessage(
+    chrome.runtime.sendMessage<ChromeMessage>(
       { action: 'getCountryInfo', url: tab.url, tabId: tab.id },
       async response => {
         console.log('[POPUP DEBUG] Received response:', response);
@@ -74,14 +72,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-async function showCountryInfo(info) {
+async function showCountryInfo(info: any) {
   const topMatch = info[0];
   flagEl.textContent = topMatch.flag || '🌐';
   countryCodeEl.textContent = topMatch.country;
   domainEl.textContent = topMatch.domain;
   companyEl.textContent = topMatch.company || 'Unknown';
   countryEl.textContent = topMatch.countryName;
-  traceEl.textContent = info.map(e => {
+  traceEl.textContent = info.map((e: any) => {
     let out = e.domain;
     if (e.company) out += ' (' + e.company + ')';
     if (e.flag) out += ' ' + e.flag;
@@ -102,16 +100,16 @@ function showSpecialPage() {
 }
 
 
-document.getElementById('open-options').addEventListener('click', () => {
-  browserAPI.runtime.openOptionsPage();
+getEl('open-options').addEventListener('click', () => {
+  chrome.runtime.openOptionsPage();
   window.close();
 });
 
 document.querySelectorAll('.ntlink').forEach(el => {
   el.addEventListener('click', ev => {
     ev.preventDefault();
-    browserAPI.tabs.create({
-      url: el.getAttribute('href')
+    chrome.tabs.create({
+      url: el.getAttribute('href')!
     });
     window.close();
   });

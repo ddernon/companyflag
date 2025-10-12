@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - migrate_to_ts
   pull_request:
   workflow_dispatch:
 
@@ -21,12 +22,19 @@ jobs:
           node-version: 24
           check-latest: true
 
+      - name: Install dependencies and global tools
+        run: |
+          npm install -g crx3 npm-check-updates rollup typescript
+          echo "$(npm root -g)/.bin" >> $GITHUB_PATH
+
       - name: Build extensions
         run: |
-          . "$HOME/.nvm/nvm.sh"
-
+          npm i
+          npx rollup -c --minify
+          rm -rf src/ts
           cp license.txt src/
           node utils/download_flags.js src/img/flags/
+
           cd src
           zip -r ../firefox.xpi *
           cd ..
