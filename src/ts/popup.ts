@@ -19,19 +19,19 @@
 */
 
 
-import { ChromeMessage, getEl } from './shared';
+import { ChromeMessage, getElement } from './shared';
 
-const flagEl = getEl('flag');
-const countryCodeEl = getEl('countryCode');
-const domainEl = getEl('domain');
-const companyEl = getEl('company');
-const countryEl = getEl('country');
-const contentEl = getEl('content');
-const traceEl = getEl('trace');
+const flagEl = getElement('flag');
+const countryCodeEl = getElement('countryCode');
+const domainEl = getElement('domain');
+const companyEl = getElement('company');
+const countryEl = getElement('country');
+const contentEl = getElement('content');
+const traceEl = getElement('trace');
 
-const loadingEl = getEl('loading');
-const unknownEl = getEl('unknown');
-const specialPageEl = getEl('special-page');
+const loadingEl = getElement('loading');
+const unknownEl = getElement('unknown');
+const specialPageEl = getElement('special-page');
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -100,7 +100,7 @@ function showSpecialPage() {
 }
 
 
-getEl('open-options').addEventListener('click', () => {
+getElement('open-options').addEventListener('click', () => {
   chrome.runtime.openOptionsPage();
   window.close();
 });

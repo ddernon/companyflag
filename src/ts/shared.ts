@@ -21,12 +21,12 @@
 
 export {}
 
-export function getEl(id: string) {
+export function getElement(id: string) {
   return document.getElementById(id)!;
 }
 
-export function getFormEl(id: string): HTMLFormElement {
-  return getEl(id) as HTMLFormElement;
+export function getFormElement(id: string): HTMLFormElement {
+  return getElement(id) as HTMLFormElement;
 }
 
 export class Log {

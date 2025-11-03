@@ -19,9 +19,8 @@
 */
 
 
-/**
- * Settings Manager
- **/
+export {}
+
 export default class SettingsManager {
   private static readonly STORAGE_KEY = 'settings';
   private static readonly DEFAULTS: Settings = {

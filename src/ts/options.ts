@@ -20,21 +20,21 @@
 
 
 import SettingsManager from './settingsManager';
-import { ChromeMessage, getEl, getFormEl } from './shared';
+import { ChromeMessage, getElement, getFormElement } from './shared';
 
 let settingsManager: SettingsManager;
 
-const faviconFlag = getFormEl('favicon-flag');
-const menuIconFlag = getFormEl('menu-icon-flag');
-const badgeFlag = getFormEl('badge-flag');
-const badgeBgColorKnown = getFormEl('badge-bg-color-known');
-const badgeBgColorUnknown = getFormEl('badge-bg-color-unknown');
+const faviconFlag = getFormElement('favicon-flag');
+const menuIconFlag = getFormElement('menu-icon-flag');
+const badgeFlag = getFormElement('badge-flag');
+const badgeBgColorKnown = getFormElement('badge-bg-color-known');
+const badgeBgColorUnknown = getFormElement('badge-bg-color-unknown');
 
-const autoupdateEnabled = getFormEl('autoupdate-enabled');
-const updateUrl = getFormEl('update-url');
-const updateFrequency = getFormEl('update-frequency');
+const autoupdateEnabled = getFormElement('autoupdate-enabled');
+const updateUrl = getFormElement('update-url');
+const updateFrequency = getFormElement('update-frequency');
 
-const statusDiv = getEl('status');
+const statusDiv = getElement('status');
 
 async function saveOptions() {
   settingsManager.settings = {
@@ -111,5 +111,5 @@ async function updateNowButtonClicked(): Promise<void> {
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', restoreOptions);
-getEl('save').addEventListener('click', saveOptions);
-getEl('update-now').addEventListener('click', updateNowButtonClicked);
+getElement('save').addEventListener('click', saveOptions);
+getElement('update-now').addEventListener('click', updateNowButtonClicked);

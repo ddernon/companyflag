@@ -101,13 +101,20 @@
     <input type="checkbox" id="autoupdate-enabled" />
     <label for="autoupdate-enabled">Enable list autoupdate</label>
     <button id="update-now">Update now</button>
+    <!-- TODO: reset to local DB only -->
   </div>
 
   <div class="setting">
     <label for="update-url">Update URL:</label>
     <select id="update-url">
+      <option value="https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/latest_data/src/data/company_data.json">
+        https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/latest_data/src/data/company_data.json
+      </option>
       <option value="https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/master/src/data/company_data.json">
         https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/master/src/data/company_data.json
+      </option>
+      <option value="https://framagit.org/dder/companyflag/-/raw/latest_data/src/data/company_data.json">
+        https://framagit.org/dder/companyflag/-/raw/latest_data/src/data/company_data.json
       </option>
       <option value="https://framagit.org/dder/companyflag/-/raw/master/src/data/company_data.json">
         https://framagit.org/dder/companyflag/-/raw/master/src/data/company_data.json
