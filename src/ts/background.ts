@@ -1,7 +1,7 @@
 /*!*****************************************************************************
 
   CompanyFlag - Show company and country of current website
-  Copyright (C) 2025 David Dernoncourt <daviddernoncourt.com>
+  Copyright (C) 2025-2026 David Dernoncourt <daviddernoncourt.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Affero General Public License as published
@@ -284,21 +284,25 @@ async function updateBadge(
 }
 
 
-// TODO: put this back as an option
-// Listen for when navigation is committed (URL is finalized)
-// chrome.webNavigation.onCommitted.addListener(async details => {
-//   console.log(`[DEBUG] onCommitted: ${details.url} (tab ${details.tabId})`);
-//   // Only handle main frame navigations (not iframes)
-//   if (details.frameId !== 0) {
-//     return;
-//   }
-//   const infoRaw = await getAllDataForUrl(details.url);
-//   if (infoRaw === false) {
-//     return;
-//   }
-//   const info = infoRaw[0];
-//   await updateBadge(details.tabId, info?.country, info?.countryName);
-// });
+// Listen when navigation is committed (URL is finalized)
+(async () => {
+  await makeSureAllLoaded();
+  if (settingsManager!.settings.getCountryOnCommitted) {
+    chrome.webNavigation.onCommitted.addListener(async details => {
+      console.log(`[DEBUG] onCommitted: ${details.url} (tab ${details.tabId})`);
+      // Only handle main frame navigations (not iframes)
+      if (details.frameId !== 0) {
+        return;
+      }
+      const infoRaw = await getAllDataForUrl(details.url);
+      if (infoRaw === false) {
+        return;
+      }
+      const info = infoRaw[0];
+      await updateBadge(details.tabId, info?.country, info?.countryName);
+    });
+  }
+})();
 
 
 chrome.runtime.onMessage.addListener((message: ChromeMessage, sender, sendResponse) => {

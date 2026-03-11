@@ -3,16 +3,28 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>License</title>
   <style>
-    #AGPLv3 {
+    #AGPLv3, #ODbL {
       width: fit-content;
-      max-width: 100%;
+      max-width: fit-content;
       max-height: 50vh; /* half the viewport height */
       overflow-x: hidden;
       overflow-y: auto; /* show scrollbar when content exceeds max-height */
       padding: 1rem;
       box-sizing: border-box;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      body {
+        font-size: 16px;
+        padding: 0 1rem;
+      }
+      #AGPLv3 {
+        max-height: 60vh;
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
@@ -25,7 +37,7 @@
 /*******************************************************************************
 
   CompanyFlag - Show company and country of current website
-  Copyright © 2025 David Dernoncourt <daviddernoncourt.com>
+  Copyright © 2025-2026 David Dernoncourt <daviddernoncourt.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Affero General Public License as published
@@ -40,7 +52,13 @@
 *******************************************************************************/
   </pre>
 
+  <h3>Add-on license</h3>
+
   <pre id="AGPLv3"></pre>
+
+  <h3>Database license</h3>
+
+  <pre id="ODbL"></pre>
 
   <h2>Third-party dependencies</h2>
   <p>

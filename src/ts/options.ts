@@ -1,7 +1,7 @@
 /*!*****************************************************************************
 
   CompanyFlag - Show company and country of current website
-  Copyright (C) 2025 David Dernoncourt <daviddernoncourt.com>
+  Copyright (C) 2025-2026 David Dernoncourt <daviddernoncourt.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Affero General Public License as published
@@ -29,6 +29,7 @@ const menuIconFlag = getFormElement('menu-icon-flag');
 const badgeFlag = getFormElement('badge-flag');
 const badgeBgColorKnown = getFormElement('badge-bg-color-known');
 const badgeBgColorUnknown = getFormElement('badge-bg-color-unknown');
+const getCountryOnCommitted = getFormElement('get-country-on-committed');
 
 const autoupdateEnabled = getFormElement('autoupdate-enabled');
 const updateUrl = getFormElement('update-url');
@@ -36,12 +37,16 @@ const updateFrequency = getFormElement('update-frequency');
 
 const statusDiv = getElement('status');
 
+let advancedSectionExpanded = false;
+
 async function saveOptions() {
   settingsManager.settings = {
+    advancedSectionExpanded: advancedSectionExpanded,
     badgeFlag: badgeFlag.checked,
     badgeBgColorKnown: badgeBgColorKnown.value,
     badgeBgColorUnknown: badgeBgColorUnknown.value,
     faviconFlag: faviconFlag.checked,
+    getCountryOnCommitted: getCountryOnCommitted.checked,
     menuIconFlag: menuIconFlag.checked,
     update: {
       enabled: autoupdateEnabled.checked,
@@ -51,6 +56,11 @@ async function saveOptions() {
   };
   await settingsManager.save();
   showSuccessMessage('Options saved');
+}
+
+async function saveAndReload() {
+  await saveOptions();
+  chrome.runtime.reload();
 }
 
 function showSuccessMessage(text: string) {
@@ -74,10 +84,12 @@ function showResultMessage(text: string) {
 async function restoreOptions() {
   settingsManager = await SettingsManager.load();
   const storedOptions = settingsManager.settings;
+  toggleAdvanced(storedOptions.advancedSectionExpanded);
   badgeFlag.checked = storedOptions.badgeFlag;
   badgeBgColorKnown.value = storedOptions.badgeBgColorKnown;
   badgeBgColorUnknown.value = storedOptions.badgeBgColorUnknown;
   faviconFlag.checked = storedOptions.faviconFlag;
+  getCountryOnCommitted.checked = storedOptions.getCountryOnCommitted;
   menuIconFlag.checked = storedOptions.menuIconFlag;
   const update = storedOptions.update || {};
   autoupdateEnabled.checked = update.enabled;
@@ -108,8 +120,25 @@ async function updateNowButtonClicked(): Promise<void> {
   }
 }
 
+function toggleAdvanced(force?: boolean) {
+  const content = getElement('advanced-content');
+  const arrow = getElement('advanced-toggle-arrow');
+  
+  advancedSectionExpanded = content.classList.toggle('expanded', force);
+  arrow.classList.toggle('expanded', force);
+}
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', restoreOptions);
+getElement('cancel').addEventListener('click', restoreOptions);
 getElement('save').addEventListener('click', saveOptions);
+getElement('save-n-reload').addEventListener('click', saveAndReload);
 getElement('update-now').addEventListener('click', updateNowButtonClicked);
+
+getElement('advanced-toggle').addEventListener('click', () => {
+  toggleAdvanced();
+});
+
+getElement('reset-list').addEventListener('click', () => {
+  // TODO: implement reset list functionality
+});

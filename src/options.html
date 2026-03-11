@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Options</title>
   <style>
     body {
@@ -51,6 +52,12 @@
     button:hover {
       background: #0052a3;
     }
+    button[id=cancel] {
+      background: #cc6600;
+    }
+    button[id=cancel]:hover {
+      background: #a35200;
+    }
     #status {
       margin-top: 10px;
       padding: 10px;
@@ -66,6 +73,88 @@
       background: #edd4d9;
       color: #572417;
       border: 1px solid #e6c3cb;
+    }
+    .advanced-section {
+      margin: 30px 0 20px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .advanced-header {
+      padding: 12px 16px;
+      background: #f5f5f5;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+    .advanced-header:hover {
+      background: #ebebeb;
+    }
+    .arrow {
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+    .arrow.expanded {
+      transform: rotate(90deg);
+    }
+    .advanced-content {
+      padding: 16px;
+      display: none;
+    }
+    .advanced-content.expanded {
+      display: block;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      body {
+        font-size: 16px;
+        margin: 1rem auto;
+        padding: 1rem;
+      }
+      /* Allow rows to wrap so long labels don't overflow */
+      .setting {
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+      }
+      /* Larger checkboxes — easier to tap */
+      input[type="checkbox"] {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+        accent-color: #0066cc;
+      }
+      /* Color swatches tall enough to tap */
+      input[type="color"] {
+        width: 48px;
+        height: 44px;
+      }
+      /* Number input: taller, larger font */
+      input[type="number"] {
+        height: 44px;
+        font-size: 1rem;
+      }
+      /* Select: taller, larger font */
+      select {
+        height: 44px;
+        font-size: 1rem;
+        max-width: 100%;
+      }
+      /* Buttons: full touch-target height */
+      button {
+        min-height: 44px;
+        font-size: 1rem;
+        padding: 0 1.25rem;
+        touch-action: manipulation;
+      }
+      /* Advanced header: taller touch target */
+      .advanced-header {
+        padding: 14px 16px;
+        min-height: 44px;
+      }
     }
   </style>
 </head>
@@ -105,29 +194,50 @@
   </div>
 
   <div class="setting">
-    <label for="update-url">Update URL:</label>
-    <select id="update-url">
-      <option value="https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/latest_data/src/data/company_data.json">
-        https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/latest_data/src/data/company_data.json
-      </option>
-      <option value="https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/master/src/data/company_data.json">
-        https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/master/src/data/company_data.json
-      </option>
-      <option value="https://framagit.org/dder/companyflag/-/raw/latest_data/src/data/company_data.json">
-        https://framagit.org/dder/companyflag/-/raw/latest_data/src/data/company_data.json
-      </option>
-      <option value="https://framagit.org/dder/companyflag/-/raw/master/src/data/company_data.json">
-        https://framagit.org/dder/companyflag/-/raw/master/src/data/company_data.json
-      </option>
-    </select>
-  </div>
-
-  <div class="setting">
     <label for="update-frequency">Update frequency: check every </label>
     <input type="number" id="update-frequency" min="1" /> day(s)
   </div>
   
+  <div class="advanced-section">
+    <div class="advanced-header" id="advanced-toggle">
+      <span class="arrow" id="advanced-toggle-arrow">▶</span>
+      <span>Advanced settings</span>
+    </div>
+    <div class="advanced-content" id="advanced-content">
+      <div class="setting">
+        <label for="update-url">List update URL:</label>
+        <select id="update-url">
+          <option value="https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/latest_data/src/data/company_data.json">
+            https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/latest_data/src/data/company_data.json
+          </option>
+          <option value="https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/master/src/data/company_data.json">
+            https://raw.githubusercontent.com/ddernon/companyflag/refs/heads/master/src/data/company_data.json
+          </option>
+          <option value="https://framagit.org/dder/companyflag/-/raw/latest_data/src/data/company_data.json">
+            https://framagit.org/dder/companyflag/-/raw/latest_data/src/data/company_data.json
+          </option>
+          <option value="https://framagit.org/dder/companyflag/-/raw/master/src/data/company_data.json">
+            https://framagit.org/dder/companyflag/-/raw/master/src/data/company_data.json
+          </option>
+        </select>
+      </div>
+      
+      <!-- 
+      <div class="setting">
+        <button id="reset-list">Reset list</button> (TODO) (this resets the list to the local version bundled in the app and disables auto-update)
+      </div>
+      -->
+      
+      <div class="setting">
+        <input type="checkbox" id="get-country-on-committed" />
+        <label for="get-country-on-committed">Get country on webNavigation.onCommitted. <small>This displays the flag/country faster but may be buggy</small></label>
+      </div>
+    </div>
+  </div>
+  
   <button id="save">Save</button>
+  <button id="save-n-reload" title="This is needed for most settings, otherwise they may not apply until the next browser restart">Save & reload</button>
+  <button id="cancel">Cancel</button>
   <div id="status"></div>
   
   <script type="module" src="js/options.js"></script>

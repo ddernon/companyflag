@@ -1,7 +1,7 @@
 /*******************************************************************************
 
   CompanyFlag - Show company and country of current website
-  Copyright (C) 2025 David Dernoncourt <daviddernoncourt.com>
+  Copyright (C) 2025-2026 David Dernoncourt <daviddernoncourt.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Affero General Public License as published

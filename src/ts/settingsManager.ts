@@ -1,7 +1,7 @@
 /*******************************************************************************
 
   CompanyFlag - Show company and country of current website
-  Copyright (C) 2025 David Dernoncourt <daviddernoncourt.com>
+  Copyright (C) 2025-2026 David Dernoncourt <daviddernoncourt.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Affero General Public License as published
@@ -24,10 +24,12 @@ export {}
 export default class SettingsManager {
   private static readonly STORAGE_KEY = 'settings';
   private static readonly DEFAULTS: Settings = {
+    advancedSectionExpanded: false,
     badgeFlag: false,
     badgeBgColorKnown: '#4285F4',
     badgeBgColorUnknown: '#f4c542',
     faviconFlag: false,
+    getCountryOnCommitted: false,
     menuIconFlag: true,
     update: {
       enabled: false,
@@ -59,21 +61,27 @@ export default class SettingsManager {
     return manager;
   }
 
-  private static mergeWithDefaults(stored: any): Settings {
+  private static mergeWithDefaults(stored: DeepPartial<Settings>): Settings {
     return {
+      advancedSectionExpanded: stored?.advancedSectionExpanded ?? this.DEFAULTS.advancedSectionExpanded,
       badgeFlag: stored?.badgeFlag ?? this.DEFAULTS.badgeFlag,
       badgeBgColorKnown: stored?.badgeBgColorKnown ?? this.DEFAULTS.badgeBgColorKnown,
       badgeBgColorUnknown: stored?.badgeBgColorUnknown ?? this.DEFAULTS.badgeBgColorUnknown,
       faviconFlag: stored?.faviconFlag ?? this.DEFAULTS.faviconFlag,
+      getCountryOnCommitted: stored?.getCountryOnCommitted ?? this.DEFAULTS.getCountryOnCommitted,
       menuIconFlag: stored?.menuIconFlag ?? this.DEFAULTS.menuIconFlag,
       update: {
         enabled: stored?.update?.enabled ?? this.DEFAULTS.update.enabled,
         checkEveryDays: stored?.update?.checkEveryDays ?? this.DEFAULTS.update.checkEveryDays,
-        urls: stored?.update?.urls ?? this.DEFAULTS.update.urls
+        urls: (stored?.update?.urls ?? this.DEFAULTS.update.urls) as string[]
       }
     };
   }
 }
+
+type DeepPartial<T> = T extends object ? {
+  [P in keyof T]?: DeepPartial<T[P]>;
+} : T;
 
 interface UpdateSettings {
   enabled: boolean;
@@ -82,10 +90,12 @@ interface UpdateSettings {
 }
 
 interface Settings {
+  advancedSectionExpanded: boolean;
   badgeFlag: boolean;
   badgeBgColorKnown: string;
   badgeBgColorUnknown: string;
   faviconFlag: boolean;
+  getCountryOnCommitted: boolean;
   menuIconFlag: boolean;
   update: UpdateSettings;
 }

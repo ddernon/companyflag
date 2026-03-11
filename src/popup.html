@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       width: 350px;
@@ -118,6 +119,32 @@
     a:hover {
       text-decoration: underline;
     }
+
+    @media (hover: none) and (pointer: coarse) {
+      body {
+        width: auto;       /* remove the 350 px hard-coded width */
+        font-size: 16px;   /* prevent iOS auto-zoom on input focus */
+      }
+      .flag {
+        font-size: 2.5rem;
+      }
+      .country-code {
+        font-size: 1.25rem;
+      }
+      #open-options {
+        min-height: 44px;  /* minimum tap target (Apple/Google HIG) */
+        font-size: 1rem;
+        padding: 8px 12px;
+        touch-action: manipulation;
+      }
+      #trace {
+        font-size: 0.85rem;
+      }
+      .footer {
+        font-size: 0.875rem;
+        padding-bottom: 0.5rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -166,7 +193,7 @@
   <button id="open-options">⚙️ Settings</button>
   <div class="footer">
     <a href="https://framagit.org/dder/companyflag" class="ntlink">CompanyFlag</a><br>
-    © 2025 David Dernoncourt<br>
+    © 2025-2026 David Dernoncourt<br>
     <a href="copyright.html" class="ntlink"><img src="img/agplv3-88x31.png" alt="AGPLv3 license" title="AGPLv3 license"></a>
   </div>
   
