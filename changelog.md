@@ -1,3 +1,8 @@
+## 0.8.4
+Mobile support.  
+More settings.  
+More company data.  
+
 ## 0.8.1
 More company data.  
 Add latest_data branch as update URL option.

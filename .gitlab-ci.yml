@@ -16,7 +16,8 @@ build_xpi:
       npm i
       rollup -c --minify
       rm -rf src/ts
-      cp license.txt src/
+      cp license-AGPL-3.0-or-later.txt src/
+      cp license-ODbL-1.0.txt src/
       node utils/download_flags.js src/img/flags/
 
       cd src
