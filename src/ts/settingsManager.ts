@@ -45,10 +45,10 @@ export default class SettingsManager {
   }
 
   static async load(): Promise<SettingsManager> {
-    const result = await chrome.storage.sync.get(this.STORAGE_KEY);
-    const stored = result[this.STORAGE_KEY];
-    const merged = this.mergeWithDefaults(stored);
-    return new SettingsManager(merged);
+    const fetchedStorage = await chrome.storage.sync.get(this.STORAGE_KEY);
+    const storedSettings = fetchedStorage[this.STORAGE_KEY];
+    const mergedSettings = this.mergeWithDefaults(storedSettings!);
+    return new SettingsManager(mergedSettings);
   }
 
   async save(): Promise<void> {

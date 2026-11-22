@@ -15,11 +15,12 @@ be the same there too.
 ### For Firefox
 
 - Install NodeJS (latest LTS)
-- `npm i -g typescript rollup`
+- `npm i -g rollup`
 - `npm i`
 - `rollup -c --minify` (--minify is optional, obviously)
 - `rm -rf src/ts` (optional as well, but no point in bundling the TS files)
-- `cp license.txt src/`
+- `cp license-AGPL-3.0-or-later.txt src/`
+- `cp license-ODbL-1.0.txt src/`
 - `node utils/download_flags.js src/img/flags/`
 - And now the `src` folder is ready to be zipped
 
@@ -28,3 +29,14 @@ be the same there too.
 Follow the Firefox steps, but before zipping, run this command
 in order to convert the provided `manifest.json` to its Chrome version:
 `node utils/convert_manifest.js src/manifest.json src/manifest.json`
+
+## Privacy & Security
+
+- No data is sent to external servers except for the
+(optional) database auto-update
+- Data is cached locally using browser storage
+
+## Contributing
+
+- Don’t forget to test with at least one Firefox-based and one Chrome-based browser
+- Submit your pull request ideally on Framagit, otherwise on Gitlab or Github

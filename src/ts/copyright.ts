@@ -23,14 +23,11 @@ const el_AGPLv3 = document.getElementById('AGPLv3')!;
 const el_ODbL = document.getElementById('ODbL')!;
 
 fetch(chrome.runtime.getURL('license-AGPL-3.0-or-later.txt'))
-  .then(response => {
+  .then(async response => {
     if (!response.ok) {
       throw new Error(`Failed to load license-AGPL-3.0-or-later.txt: ${response.status}\nSee https://www.gnu.org/licenses/agpl-3.0.en.html`);
     }
-    return response.text();
-  })
-  .then(text => {
-    el_AGPLv3.textContent = text;
+    el_AGPLv3.textContent = await response.text();
   })
   .catch(error => {
     console.error('Error loading license:', error);
@@ -38,14 +35,11 @@ fetch(chrome.runtime.getURL('license-AGPL-3.0-or-later.txt'))
   });
 
 fetch(chrome.runtime.getURL('license-ODbL-1.0.txt'))
-  .then(response => {
+  .then(async response => {
     if (!response.ok) {
       throw new Error(`Failed to load license-ODbL-1.0.txt: ${response.status}\nSee https://opendatacommons.org/licenses/odbl/1-0/`);
     }
-    return response.text();
-  })
-  .then(text => {
-    el_ODbL.textContent = text;
+    el_ODbL.textContent = await response.text();
   })
   .catch(error => {
     console.error('Error loading license:', error);

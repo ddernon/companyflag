@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies and global tools
         run: |
-          npm install -g crx3 npm-check-updates rollup typescript
+          npm install -g crx3 npm-check-updates rollup
           echo "$(npm root -g)/.bin" >> $GITHUB_PATH
 
       - name: Build extensions

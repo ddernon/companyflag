@@ -10,7 +10,7 @@ build_xpi:
     - \. "$HOME/.nvm/nvm.sh"
     - nvm install 24
     - node -v
-    - npm install -g crx3 npm-check-updates rollup typescript
+    - npm install -g crx3 npm-check-updates rollup
   script:
     - |
       npm i
@@ -39,6 +39,5 @@ build_xpi:
     expire_in: 1 day
   only:
     - master
-    - migrate_to_ts
     - merge_requests
   when: on_success

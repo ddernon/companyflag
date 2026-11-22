@@ -7,7 +7,7 @@ This project uses multiple licenses depending on the type of file.
 All extension source code and build/config files (for example: `src/**/*`, `manifest.json`, `package.json`, build scripts) are licensed under:
 
 - **GNU Affero General Public License v3.0 (AGPL-3.0) or later**
-- See [`license-AGPL-3.0-or-later.txt`] for the full text.
+- See [`license-AGPL-3.0-or-later.txt`](license-AGPL-3.0-or-later.txt) for the full text.
 
 SPDX: `AGPL-3.0-or-later`
 
@@ -16,7 +16,7 @@ SPDX: `AGPL-3.0-or-later`
 The data files (for example: `src/data/company_data.json` and similar data files) are licensed under:
 
 - **Open Data Commons Open Database License v1.0 (ODbL-1.0)**
-- See [`license-ODbL-1.0.txt`] for the full text.
+- See [`license-ODbL-1.0.txt`](license-ODbL-1.0.txt) for the full text.
 
 SPDX: `ODbL-1.0`
 

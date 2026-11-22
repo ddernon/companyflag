@@ -2,12 +2,12 @@
   "compilerOptions": {
     "target": "es2022",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "outDir": "src/js",
     "rootDir": "src/ts",
     "strict": true,
     "removeComments": true,
-    "esModuleInterop": false
+    "types": ["*"]
   },
   "include": ["src/ts"]
 }

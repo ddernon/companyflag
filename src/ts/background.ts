@@ -37,7 +37,7 @@ const loadCompanyData = (async () => {
     chrome.storage.local.get('companyData')
   ]);
   if (storage.companyData) {
-    COMPANY_DATA = storage.companyData;
+    COMPANY_DATA = storage.companyData as any;
   } else {
     COMPANY_DATA = jsonData;
   }
@@ -45,7 +45,7 @@ const loadCompanyData = (async () => {
 
 let lastDataUpdateTimestampMs: number = 0;
 const loadLastDataUpdate = (async () => {
-  lastDataUpdateTimestampMs = (await chrome.storage.local.get('lastUpdate')).lastUpdate;;
+  lastDataUpdateTimestampMs = (await chrome.storage.local.get('lastUpdate')).lastUpdate as number;
 })();
 
 let COUNTRY_NAMES: {[key: string]: string};
